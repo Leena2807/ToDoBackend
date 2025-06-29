@@ -204,10 +204,20 @@ app.get("/task", authMiddleware, async (req, res) => {
   res.json(tasks);
 });
 
-app.post("/task", authMiddleware, async (req, res) => {
-  const tasks = new Task({ ...req.body, userId: req.userId });
-  await tasks.save();
-  res.status(201).json(tasks);
+// app.post("/task", authMiddleware, async (req, res) => {
+//   const tasks = new Task({ ...req.body, userId: req.userId });
+//   await tasks.save();
+//   res.status(201).json(tasks);
+// });
+app.post("/tasks", authMiddleware, async (req, res) => {
+  try {
+    const task = new Task({ ...req.body, userId: req.userId });
+    await task.save();
+    res.status(201).json(task);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error adding task" });
+  }
 });
 
 //delete task request
