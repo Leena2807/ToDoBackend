@@ -102,9 +102,7 @@
 // });
 
 // app.listen(PORT, () => console.log("Server is running on port:8080"));
-app.get("/", (req, res) => {
-  res.send("MERN ToDo Backend is running 🚀");
-});
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -122,6 +120,9 @@ app.use(
     origin: "*",
   })
 );
+app.get("/", (req, res) => {
+  res.send("MERN ToDo Backend is running 🚀");
+});
 
 // mongoose.connect(MONGOURL, {
 //   useNewUrlParser: true,
