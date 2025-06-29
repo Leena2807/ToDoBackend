@@ -240,34 +240,16 @@ app.patch("/tasks/:id/status", authMiddleware, async (req, res) => {
   res.json(task);
 });
 // change priority of Task
-// app.patch("/tasks/:id/priority", authMiddleware, async (req, res) => {
-//   const { priority } = req.body;
-//   const task = await Task.findOneAndUpdate(
-//     { _id: req.params.id, userId: req.userId },
-//     { priority },
-//     { new: true }
-//   );
-//   if (!task) return res.status(404).json({ message: "Task not found" });
-//   res.json(task);
-// });
 app.patch("/tasks/:id/priority", authMiddleware, async (req, res) => {
   const { priority } = req.body;
-  console.log("Priority update called with:", req.params.id, priority);
-  try {
-    const task = await Task.findOneAndUpdate(
-      { _id: req.params.id, userId: req.userId },
-      { priority },
-      { new: true }
-    );
-    if (!task) {
-      console.log("Task not found for user", req.userId);
-      return res.status(404).json({ message: "Task not found" });
-    }
-    res.json(task);
-  } catch (err) {
-    console.error("Error in priority update route:", err);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
+  const task = await Task.findOneAndUpdate(
+    { _id: req.params.id, userId: req.userId },
+    { priority },
+    { new: true }
+  );
+  if (!task) return res.status(404).json({ message: "Task not found" });
+  res.json(task);
 });
+
 
 app.listen(PORT, () => console.log(`Server is running on port:${PORT}`));
