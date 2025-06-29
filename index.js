@@ -207,7 +207,7 @@ app.get("/task", authMiddleware, async (req, res) => {
 app.post("/task", authMiddleware, async (req, res) => {
   const tasks = new Task({ ...req.body, userId: req.userId });
   await tasks.save();
-  res.status(201).json(task);
+  res.status(201).json(tasks);
 });
 
 //delete task request
