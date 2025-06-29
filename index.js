@@ -106,13 +106,15 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-app.use(cors());
+
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 const MONGOURL = process.env.MONGOURL;
 
+app.use(cors());
 app.use(express.json());
 
 app.use(
@@ -199,7 +201,7 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-app.get("/task", authMiddleware, async (req, res) => {
+app.get("/tasks", authMiddleware, async (req, res) => {
   const tasks = await Task.find({ userId: req.userId });
   res.json(tasks);
 });
@@ -221,7 +223,7 @@ app.post("/tasks", authMiddleware, async (req, res) => {
 });
 
 //delete task request
-app.delete("/tasks:id", authMiddleware, async (req, res) => {
+app.delete("/tasks/:id", authMiddleware, async (req, res) => {
   await Task.findOneAndDelete({ _id: req.params.id, userId: req.userId });
   res.json({ message: "Task deleted" });
 });
@@ -241,7 +243,7 @@ app.patch("/tasks/:id/status", authMiddleware, async (req, res) => {
 app.patch("/tasks/:id/priority", authMiddleware, async (req, res) => {
   const { priority } = req.body;
   const task = await Task.findOneAndUpdate(
-    { _id: req.params.id, userId: userId },
+    { _id: req.params.id, userId: req.userId },
     { priority },
     { new: true }
   );
