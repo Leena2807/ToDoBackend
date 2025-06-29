@@ -110,7 +110,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-require("dotenv").config();
+// require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 const MONGOURL = process.env.MONGOURL;
 
